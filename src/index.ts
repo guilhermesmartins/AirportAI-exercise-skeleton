@@ -1,5 +1,4 @@
 import 'dotenv/config';
-import 'express-async-errors';
 
 import express from 'express';
 import { configure, getLogger } from 'log4js';

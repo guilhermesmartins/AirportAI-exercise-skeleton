@@ -9,3 +9,12 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
+model Product {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  type      String
+  color     String
+  lostTime  DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}

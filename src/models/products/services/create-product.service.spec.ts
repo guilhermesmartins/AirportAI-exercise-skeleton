@@ -1,10 +1,14 @@
+import { ProductsRepositoryInterface } from '../repositories/products-repository.interface';
+import ProductsRepositoryMock from '../repositories/products.repository.mock';
 import CreateProductService from './create-product.service';
 
 let createProductService: CreateProductService;
+let productsRepository: ProductsRepositoryInterface;
 
 describe('Create Product', () => {
   beforeEach(() => {
-    createProductService = new CreateProductService();
+    productsRepository = new ProductsRepositoryMock();
+    createProductService = new CreateProductService(productsRepository);
   });
 
   it('should be able to create a new product', async () => {

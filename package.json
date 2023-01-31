@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start:dev": "NODE_ENV=development ts-node-dev -r tsconfig-paths/register --inspect --ignore node_modules src/index.ts",
+    "docker:dev": "docker-compose up",
+    "docker:build": "docker-compose build",
     "test": "jest"
   },
   "dependencies": {
@@ -10,6 +12,7 @@
     "class-validator": "0.14.0",
     "dotenv": "16.0.3",
     "express": "4.17.3",
+    "express-class-validator": "^1.0.3",
     "helmet": "4.5.0",
     "http-errors": "2.0.0",
     "jest": "29.4.1",

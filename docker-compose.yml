@@ -10,6 +10,7 @@ services:
     ports:
       - "27017:27017"
   airportai-exercise:
+    platform: linux/amd64
     depends_on:
       - mongodb
     build:

@@ -9,6 +9,12 @@ import FindProductsDTO from '../dtos/find-products.dto';
 import { ProductsRepositoryInterface } from './products-repository.interface';
 
 class ProductsRepositoryMock implements ProductsRepositoryInterface {
+  private products: Product[];
+
+  constructor() {
+    this.products = [];
+  }
+
   async create(createProductDTO: CreateProductDTO): Promise<Product> {
     const product: Product = {
       id: new ObjectId().toString(),
@@ -22,16 +28,15 @@ class ProductsRepositoryMock implements ProductsRepositoryInterface {
     return product;
   }
 
-  findOne(findOneProductDTO: FindOneProductDTO): Promise<Product | undefined> {
+  findOne(_findOneProductDTO: FindOneProductDTO): Promise<Product | undefined> {
     throw new Error('Method not implemented.');
   }
-  find(findProductsDTO: FindProductsDTO): Promise<Product[] | undefined> {
+  find(_findProductsDTO: FindProductsDTO): Promise<Product[] | undefined> {
     throw new Error('Method not implemented.');
   }
-  delete(deleteProductDTO: DeleteProductDTO): Promise<boolean> {
+  delete(_deleteProductDTO: DeleteProductDTO): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
-  private products: Product[];
 }
 
 export default ProductsRepositoryMock;

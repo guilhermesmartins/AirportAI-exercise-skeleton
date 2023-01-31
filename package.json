@@ -2,7 +2,7 @@
   "name": "node-js-skeleton",
   "version": "1.0.0",
   "scripts": {
-    "start": "node app.js",
+    "start:dev": "NODE_ENV=development ts-node-dev -r tsconfig-paths/register --inspect --ignore node_modules src/index.ts",
     "test": "NODE_ENV=test mocha --recursive --inspect --exit test",
     "test-win": "set NODE_ENV=test&& mocha --recursive --inspect --exit test"
   },
@@ -16,7 +16,7 @@
     "request-promise": "4.2.6",
     "class-validator": "0.14.0",
     "dotenv": "16.0.3",
-    "express-async-errors": "3.1.1",
+    "http-errors": "2.0.0",
     "log4js": "6.7.1",
     "prisma": "4.9.0"
   },

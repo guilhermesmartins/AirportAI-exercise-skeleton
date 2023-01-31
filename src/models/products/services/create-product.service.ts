@@ -1,5 +1,4 @@
 import { injectable, inject } from 'tsyringe';
-import { InternalServerError } from 'http-errors';
 
 import CreateProductDTO from '../dtos/create-product.dto';
 import { ProductsRepositoryInterface } from '../repositories/products-repository.interface';

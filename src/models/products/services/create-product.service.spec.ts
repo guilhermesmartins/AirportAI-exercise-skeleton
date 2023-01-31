@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import { InternalServerError } from 'http-errors';
 
 import { ProductsRepositoryInterface } from '../repositories/products-repository.interface';
 import ProductsRepositoryMock from '../repositories/products.repository.mock';

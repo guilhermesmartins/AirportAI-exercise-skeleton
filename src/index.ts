@@ -3,6 +3,7 @@ import 'dotenv/config';
 import express from 'express';
 import { configure, getLogger } from 'log4js';
 import LoggerMiddleware from './shared/logger/LoggerMiddleware';
+import './shared/container';
 
 const environment = process.env.NODE_ENV === 'production' ? 'prod' : 'dev';
 

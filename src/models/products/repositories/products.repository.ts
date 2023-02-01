@@ -11,21 +11,35 @@ class ProductsRepository implements ProductsRepositoryInterface {
   constructor() {
     this.repository = new PrismaClient();
   }
-  find(findProductsDTO: FindProductsDTO): Promise<Product[] | undefined> {
+  find(_findProductsDTO: FindProductsDTO): Promise<Product[] | undefined> {
     throw new Error('Method not implemented.');
   }
 
-  findOne(findOneProductDTO: FindOneProductDTO): Promise<Product | undefined> {
+  findOne(_findOneProductDTO: FindOneProductDTO): Promise<Product | undefined> {
     throw new Error('Method not implemented.');
   }
 
-  delete(deleteProductDTO: DeleteProductDTO): Promise<boolean> {
+  delete(_deleteProductDTO: DeleteProductDTO): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
 
-  async create(createProductDTO: CreateProductDTO): Promise<Product> {
+  async create({
+    color,
+    lostTime,
+    type,
+    brand,
+    owner,
+    title,
+  }: CreateProductDTO): Promise<Product> {
     const product = await this.repository.product.create({
-      data: createProductDTO,
+      data: {
+        color,
+        lostTime,
+        type,
+        brand,
+        owner,
+        title,
+      },
     });
 
     return product;

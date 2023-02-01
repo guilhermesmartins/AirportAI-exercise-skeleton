@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { makeValidateBody } from 'express-class-validator';
+import { makeValidateBody } from 'src/shared/validator';
 
 import CreateProductController from '../controllers/create-product.controller';
 import CreateProductDTO from '../dtos/create-product.dto';
@@ -15,6 +15,8 @@ class ProductsRoutes {
       makeValidateBody(CreateProductDTO),
       createProductController.execute,
     );
+
+    return router;
   }
 }
 

@@ -1,10 +1,16 @@
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
+import CreateProductService from '../services/create-product.service';
 
 class CreateProductController {
   async execute(req: Request, res: Response) {
-    const product = req.body;
+    const createProductData = req.body;
 
-    return res.json({ product });
+    const createProductService = container.resolve(CreateProductService);
+
+    const product = await createProductService.execute(createProductData);
+
+    return res.status(201).json({ product });
   }
 }
 

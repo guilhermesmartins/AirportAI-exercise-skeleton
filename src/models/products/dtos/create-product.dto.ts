@@ -1,17 +1,33 @@
-import { IsDate, IsString } from 'class-validator';
+import { IsDateString, IsString } from 'class-validator';
 
 class CreateProductDTO {
-  @IsDate()
+  @IsDateString()
   lostTime: Date;
 
-  @IsString()
+  @IsString({
+    message: 'Type must be a string',
+  })
   type: string;
 
-  @IsString()
+  @IsString({
+    message: 'Color must be a string',
+  })
   color: string;
 
-  @IsString()
+  @IsString({
+    message: 'Title must be a string',
+  })
   title: string;
+
+  @IsString({
+    message: 'Owner must be a string',
+  })
+  owner: string;
+
+  @IsString({
+    message: 'Brand must be a string',
+  })
+  brand: string;
 }
 
 export default CreateProductDTO;

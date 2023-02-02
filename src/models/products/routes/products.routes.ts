@@ -1,5 +1,9 @@
 import { Router } from 'express';
-import { makeValidateBody, makeValidateParams } from 'src/shared/validator';
+import {
+  makeValidateBody,
+  makeValidateParams,
+  makeValidateQueries,
+} from 'src/shared/validator';
 
 import CreateProductController from '../controllers/create-product.controller';
 import DeleteProductController from '../controllers/delete-product.controller';
@@ -24,18 +28,18 @@ class ProductsRoutes {
 
     const findOneProductController = new FindOneProductController();
 
+    const findByKeywordController = new FindByKeywordController();
+
+    router.get(
+      '/keyword',
+      makeValidateQueries(FindByKeywordDTO),
+      findByKeywordController.execute,
+    );
+
     router.get(
       '/:id',
       makeValidateParams(FindOneProductDTO),
       findOneProductController.execute,
-    );
-
-    const findByKeywordController = new FindByKeywordController();
-
-    router.post(
-      '/keyword',
-      makeValidateBody(FindByKeywordDTO),
-      findByKeywordController.execute,
     );
 
     const deleteProductController = new DeleteProductController();

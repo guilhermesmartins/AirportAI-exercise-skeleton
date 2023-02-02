@@ -1,16 +1,20 @@
 version: '3'
-
 services:
   mongodb:
-    image: mongo:5.0
+    image: mongo
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=airportaimaster
-      - MONGO_INITDB_ROOT_PASSWORD=airportaipassword
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
       - MONGO_INITDB_DATABASE=airportai
+      - MONGO_NON_ROOT_USERNAME=airportaimaster
+      - MONGO_NON_ROOT_PASSWORD=airportaipassword
     ports:
       - "27017:27017"
+    networks:
+      - my-network
   airportai-exercise:
     platform: linux/amd64
+    restart: always
     depends_on:
       - mongodb
     build:
@@ -21,5 +25,10 @@ services:
     ports:
       - ${API_PORT}:${API_PORT}
     volumes:
-      - /app/node_modules
+      # - /app/node_modules
       - .:/app
+    networks:
+      - my-network
+networks:
+  my-network:
+    driver: bridge

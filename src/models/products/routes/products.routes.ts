@@ -1,8 +1,18 @@
 import { Router } from 'express';
-import { makeValidateBody } from 'src/shared/validator';
+import {
+  makeValidateBody,
+  makeValidateParams,
+  makeValidateQueries,
+} from 'src/shared/validator';
 
 import CreateProductController from '../controllers/create-product.controller';
+import DeleteProductController from '../controllers/delete-product.controller';
+import FindByKeywordController from '../controllers/find-by-keyword.controller';
+import FindOneProductController from '../controllers/find-one-product.controller';
 import CreateProductDTO from '../dtos/create-product.dto';
+import DeleteProductDTO from '../dtos/delete-product.dto';
+import FindByKeywordDTO from '../dtos/find-by-keyword.dto';
+import FindOneProductDTO from '../dtos/find-one-product.dto';
 
 class ProductsRoutes {
   execute() {
@@ -14,6 +24,30 @@ class ProductsRoutes {
       '/',
       makeValidateBody(CreateProductDTO),
       createProductController.execute,
+    );
+
+    const findOneProductController = new FindOneProductController();
+
+    const findByKeywordController = new FindByKeywordController();
+
+    router.get(
+      '/keyword',
+      makeValidateQueries(FindByKeywordDTO),
+      findByKeywordController.execute,
+    );
+
+    router.get(
+      '/:id',
+      makeValidateParams(FindOneProductDTO),
+      findOneProductController.execute,
+    );
+
+    const deleteProductController = new DeleteProductController();
+
+    router.delete(
+      '/:id',
+      makeValidateParams(DeleteProductDTO),
+      deleteProductController.execute,
     );
 
     return router;

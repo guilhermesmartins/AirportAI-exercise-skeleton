@@ -19,8 +19,10 @@ describe('Create Product', () => {
       lostTime: new Date(),
       title: 'Samsung S9',
       type: 'smartphone',
+      owner: 'John Doe',
+      brand: 'Samsung',
     });
 
-    expect(product).toHaveProperty('id');
+    expect(product).toHaveProperty('_id');
   });
 });

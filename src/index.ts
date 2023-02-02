@@ -1,8 +1,9 @@
 import 'dotenv/config';
 import 'reflect-metadata';
-
 import express, { NextFunction, Request, Response } from 'express';
 import { configure, getLogger } from 'log4js';
+
+import './config/database';
 import LoggerMiddleware from './shared/logger/LoggerMiddleware';
 import './shared/container';
 import ProductsRoutes from './models/products/routes/products.routes';
@@ -26,6 +27,13 @@ const main = async () => {
   const app = express();
 
   app.use(express.json());
+
+  // handle errors
+  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+    res.status(err.status || 500).send({
+      message: err.message,
+    });
+  });
 
   // logs every request
   const loggerMiddleware = new LoggerMiddleware();

@@ -1,3 +1,4 @@
+import { addHours, subHours } from 'date-fns';
 import CreateProductDTO from '../dtos/create-product.dto';
 import DeleteProductDTO from '../dtos/delete-product.dto';
 import FindByKeywordDTO from '../dtos/find-by-keyword.dto';
@@ -6,13 +7,15 @@ import FindProductsDTO from '../dtos/find-products.dto';
 import { Product, ProductDocument } from '../entities/product';
 import { ProductsRepositoryInterface } from './products-repository.interface';
 
-interface KeywordsFilter {
-  brand?: string;
-  color?: string;
-  owner?: string;
-  title?: string;
-  type?: string;
-  lostTime?: Date;
+interface FindByKeywordsFilter {
+  $text?: {
+    $search: string;
+  };
+
+  lostTime?: {
+    $gte: Date;
+    $lte: Date;
+  };
 }
 
 class ProductsRepository implements ProductsRepositoryInterface {
@@ -22,40 +25,39 @@ class ProductsRepository implements ProductsRepositoryInterface {
     this.repository = new Product().getModelForClass(Product, {
       schemaOptions: { timestamps: true },
     });
+
+    this.repository.collection
+      .createIndexes([
+        {
+          key: {
+            type: 'text',
+            color: 'text',
+            title: 'text',
+            owner: 'text',
+            brand: 'text',
+          },
+        },
+      ])
+      .then();
   }
 
   async findByKeywords({
-    brand,
-    color,
-    owner,
-    title,
-    type,
+    message,
     lostTime,
   }: FindByKeywordDTO): Promise<ProductDocument[] | null> {
-    let filters = {} as KeywordsFilter;
+    let filters = {} as FindByKeywordsFilter;
 
-    if (brand) {
-      filters.brand = brand;
-    }
-
-    if (color) {
-      filters.color = color;
-    }
-
-    if (owner) {
-      filters.owner = owner;
-    }
-
-    if (title) {
-      filters.title = title;
-    }
-
-    if (type) {
-      filters.type = type;
+    if (message) {
+      filters.$text = {
+        $search: message,
+      };
     }
 
     if (lostTime) {
-      filters.lostTime = lostTime;
+      filters.lostTime = {
+        $gte: subHours(lostTime, 1),
+        $lte: addHours(lostTime, 1),
+      };
     }
 
     const products = await this.repository.find(filters);

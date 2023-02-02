@@ -1,4 +1,4 @@
-import { IsMongoId, IsOptional } from 'class-validator';
+import { IsMongoId } from 'class-validator';
 
 class FindOneProductDTO {
   @IsMongoId()

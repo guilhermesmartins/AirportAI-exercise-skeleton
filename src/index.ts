@@ -7,6 +7,8 @@ import './config/database';
 import LoggerMiddleware from './shared/logger/LoggerMiddleware';
 import './shared/container';
 import ProductsRoutes from './models/products/routes/products.routes';
+import UsersRoutes from './models/users/routes/users.routes';
+import helmet from 'helmet';
 
 const environment = process.env.NODE_ENV === 'production' ? 'prod' : 'dev';
 
@@ -26,14 +28,8 @@ const logger = getLogger('server');
 const main = async () => {
   const app = express();
 
+  app.use(helmet());
   app.use(express.json());
-
-  // handle errors
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    res.status(err.status || 500).send({
-      message: err.message,
-    });
-  });
 
   // logs every request
   const loggerMiddleware = new LoggerMiddleware();
@@ -46,6 +42,19 @@ const main = async () => {
   // routes
   const productsRoutes = new ProductsRoutes();
   app.use('/products', productsRoutes.execute());
+
+  const usersRoutes = new UsersRoutes();
+  app.use('/users', usersRoutes.execute());
+
+  // handle errors
+  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+    logger.info(err);
+    logger.error(err);
+
+    res.status(err.status || 500).json({
+      message: err.message,
+    });
+  });
 
   const port = process.env.API_PORT || 3000;
 

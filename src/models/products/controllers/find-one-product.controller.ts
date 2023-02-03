@@ -7,10 +7,11 @@ class FindOneProductController {
   async execute(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
+      const { id: userId } = req.user;
 
       const findOneProductService = container.resolve(FindOneProductService);
 
-      const product = await findOneProductService.execute({ id });
+      const product = await findOneProductService.execute({ id, userId });
 
       res.status(200).send({ product });
     } catch (err) {

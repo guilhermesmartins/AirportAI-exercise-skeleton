@@ -1,8 +1,11 @@
 import { IsMongoId } from 'class-validator';
 
-class FindOneProductDTO {
+class FindOneProductBO {
   @IsMongoId()
   id: string;
+
+  @IsMongoId()
+  userId: string;
 }
 
-export default FindOneProductDTO;
+export default FindOneProductBO;

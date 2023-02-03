@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import DeleteProductService from '../services/delte-product.service';
+import DeleteProductService from '../services/delete-product.service';
 
 class DeleteProductController {
   async execute(req: Request, res: Response) {

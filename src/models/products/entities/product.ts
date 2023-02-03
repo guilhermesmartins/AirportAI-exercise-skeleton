@@ -1,24 +1,24 @@
-import { Document } from 'mongoose';
-import { Typegoose, prop } from 'typegoose';
+import { prop, DocumentType } from '@typegoose/typegoose';
+import { ObjectId } from 'mongoose';
 
-export class Product extends Typegoose {
-  @prop({ required: true })
+export class Product {
+  @prop({ type: Date, required: true })
   lostTime: Date;
 
-  @prop({ required: true, index: true })
+  @prop({ type: String, required: true, index: true })
   type: string;
 
-  @prop({ required: true, index: true })
+  @prop({ type: String, required: true, index: true })
   color: string;
 
-  @prop({ required: true, index: true })
+  @prop({ type: String, required: true, index: true })
   title: string;
 
-  @prop({ required: true, index: true })
-  owner: string;
+  @prop({ type: String, required: true, ref: 'User' })
+  userId: ObjectId;
 
-  @prop({ required: true, index: true })
+  @prop({ type: String, required: true, index: true })
   brand: string;
 }
 
-export type ProductDocument = Document<Product>;
+export type ProductDocument = DocumentType<Product>;

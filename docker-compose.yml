@@ -14,18 +14,17 @@ services:
       - my-network
   airportai-exercise:
     platform: linux/amd64
-    restart: always
     depends_on:
       - mongodb
     build:
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: .
       args:
         - API_PORT=${API_PORT}
     ports:
       - ${API_PORT}:${API_PORT}
     volumes:
-      # - /app/node_modules
+      - /app/node_modules
       - .:/app
     networks:
       - my-network

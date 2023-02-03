@@ -1,4 +1,4 @@
-import { IsDateString, IsOptional, IsString } from 'class-validator';
+import { IsDateString, IsMongoId, IsOptional, IsString } from 'class-validator';
 
 class FindByKeywordDTO {
   @IsOptional()
@@ -8,6 +8,9 @@ class FindByKeywordDTO {
   @IsOptional()
   @IsDateString()
   lostTime?: Date;
+
+  @IsMongoId()
+  userId: string;
 }
 
 export default FindByKeywordDTO;

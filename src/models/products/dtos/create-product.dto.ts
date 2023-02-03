@@ -1,4 +1,5 @@
-import { IsDateString, IsString } from 'class-validator';
+import { IsDateString, IsInstance, IsString } from 'class-validator';
+import { Types } from 'mongoose';
 
 class CreateProductDTO {
   @IsDateString()
@@ -20,14 +21,12 @@ class CreateProductDTO {
   title: string;
 
   @IsString({
-    message: 'Owner must be a string',
-  })
-  owner: string;
-
-  @IsString({
     message: 'Brand must be a string',
   })
   brand: string;
+
+  @IsInstance(Types.ObjectId)
+  userId: Types.ObjectId;
 }
 
 export default CreateProductDTO;

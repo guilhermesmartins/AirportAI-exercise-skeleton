@@ -1,4 +1,15 @@
-import ProductsRepository from 'src/models/products/repositories/products.repository';
 import { container } from 'tsyringe';
+import { ProductsRepositoryInterface } from '../../models/products/repositories/products-repository.interface';
+import ProductsRepository from '../../models/products/repositories/products.repository';
+import UsersRepository from '../../models/users/repositories/users.repository';
+import UsersRepositoryInterface from '../../models/users/repositories/users.repository.interface';
 
-container.registerSingleton('ProductsRepository', ProductsRepository);
+container.registerSingleton<ProductsRepositoryInterface>(
+  'ProductsRepository',
+  ProductsRepository,
+);
+
+container.registerSingleton<UsersRepositoryInterface>(
+  'UsersRepository',
+  UsersRepository,
+);

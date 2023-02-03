@@ -6,7 +6,5 @@ const logger = getLogger('database');
 mongoose.set('debug', process.env.NODE_ENV !== 'prod');
 
 mongoose
-  .connect(process.env.DATABASE_URL as string, {
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.DATABASE_URL as string, {})
   .then(() => logger.info('Database is connected'));

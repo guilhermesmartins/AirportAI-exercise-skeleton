@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { container } from 'tsyringe';
-import FindByKeywordDTO from '../dtos/find-by-keyword.dto';
+import FindByKeywordsProductBO from '../bos/find-by-keywords-product.bo';
 
 import FindByKeywordService from '../services/find-by-keyword.service';
 
@@ -8,12 +8,11 @@ class FindByKeywordController {
   async execute(req: Request, res: Response, next: NextFunction) {
     try {
       const { message, lostTime } = req.query;
-
-      console.log(`message`, message);
+      const { id: userId } = req.user;
 
       const findByKeywordService = container.resolve(FindByKeywordService);
 
-      let findByKeywordsData = {} as FindByKeywordDTO;
+      let findByKeywordsData = {} as FindByKeywordsProductBO;
 
       if (message) {
         findByKeywordsData.message = message.toString().trim();
@@ -23,7 +22,10 @@ class FindByKeywordController {
         findByKeywordsData.lostTime = new Date(lostTime.trim());
       }
 
-      const products = await findByKeywordService.execute(findByKeywordsData);
+      const products = await findByKeywordService.execute({
+        userId,
+        ...findByKeywordsData,
+      });
 
       res.status(200).send({ products });
     } catch (err) {

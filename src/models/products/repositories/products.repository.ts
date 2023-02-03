@@ -1,12 +1,12 @@
+import { getModelForClass } from '@typegoose/typegoose';
 import { addHours, subHours } from 'date-fns';
+
 import CreateProductDTO from '../dtos/create-product.dto';
 import DeleteProductDTO from '../dtos/delete-product.dto';
 import FindByKeywordDTO from '../dtos/find-by-keyword.dto';
 import FindOneProductDTO from '../dtos/find-one-product.dto';
-import FindProductsDTO from '../dtos/find-products.dto';
 import { Product, ProductDocument } from '../entities/product';
 import { ProductsRepositoryInterface } from './products-repository.interface';
-
 interface FindByKeywordsFilter {
   $text?: {
     $search: string;
@@ -16,13 +16,15 @@ interface FindByKeywordsFilter {
     $gte: Date;
     $lte: Date;
   };
+
+  userId?: string;
 }
 
 class ProductsRepository implements ProductsRepositoryInterface {
   private repository;
 
   constructor() {
-    this.repository = new Product().getModelForClass(Product, {
+    this.repository = getModelForClass(Product, {
       schemaOptions: { timestamps: true },
     });
 
@@ -33,12 +35,19 @@ class ProductsRepository implements ProductsRepositoryInterface {
             type: 'text',
             color: 'text',
             title: 'text',
-            owner: 'text',
             brand: 'text',
           },
         },
       ])
       .then();
+  }
+
+  async findByUserId(userId: string): Promise<ProductDocument[] | null> {
+    const products = await this.repository.find({
+      userId,
+    });
+
+    return products;
   }
 
   async findByKeywords({
@@ -65,8 +74,48 @@ class ProductsRepository implements ProductsRepositoryInterface {
     return products;
   }
 
-  find(_findProductsDTO: FindProductsDTO): Promise<ProductDocument[] | null> {
-    throw new Error('Method not implemented.');
+  async findByKeywordsAndUserId(findByKeywordDTO: FindByKeywordDTO) {
+    const { userId, lostTime, message } = findByKeywordDTO;
+
+    let filters = {} as FindByKeywordsFilter;
+
+    filters.userId = userId;
+
+    if (message) {
+      filters.$text = {
+        $search: message,
+      };
+    }
+
+    if (lostTime) {
+      filters.lostTime = {
+        $gte: subHours(lostTime, 1),
+        $lte: addHours(lostTime, 1),
+      };
+    }
+
+    const products = await this.repository.find(filters);
+
+    return products;
+  }
+
+  async find(): Promise<ProductDocument[] | null> {
+    const products = await this.repository.find({});
+
+    return products;
+  }
+
+  async findOneByIdAndUserId({
+    id,
+    userId,
+  }: FindOneProductDTO): Promise<ProductDocument | null> {
+    console.log(userId);
+    const product = await this.repository.findOne({
+      _id: id,
+      userId,
+    });
+
+    return product;
   }
 
   async findOne(

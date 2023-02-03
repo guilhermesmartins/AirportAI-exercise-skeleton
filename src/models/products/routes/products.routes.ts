@@ -1,18 +1,21 @@
 import { Router } from 'express';
+import { ensureAdmin } from '../../../shared/middlewares/ensureAdmin';
+import { ensureAuthenticated } from '../../../shared/middlewares/ensureAuthenticated';
+
 import {
   makeValidateBody,
   makeValidateParams,
   makeValidateQueries,
-} from 'src/shared/validator';
-
+} from '../../../shared/validator';
+import CreateProductBO from '../bos/create-product.bo';
 import CreateProductController from '../controllers/create-product.controller';
 import DeleteProductController from '../controllers/delete-product.controller';
 import FindByKeywordController from '../controllers/find-by-keyword.controller';
 import FindOneProductController from '../controllers/find-one-product.controller';
-import CreateProductDTO from '../dtos/create-product.dto';
 import DeleteProductDTO from '../dtos/delete-product.dto';
-import FindByKeywordDTO from '../dtos/find-by-keyword.dto';
-import FindOneProductDTO from '../dtos/find-one-product.dto';
+import FindOneProductBO from '../bos/find-one-product.bo';
+import FindProductsController from '../controllers/find-products.controller';
+import FindByKeywordsProductBO from '../bos/find-by-keywords-product.bo';
 
 class ProductsRoutes {
   execute() {
@@ -22,7 +25,9 @@ class ProductsRoutes {
 
     router.post(
       '/',
-      makeValidateBody(CreateProductDTO),
+      ensureAuthenticated,
+      ensureAdmin,
+      makeValidateBody(CreateProductBO),
       createProductController.execute,
     );
 
@@ -32,13 +37,19 @@ class ProductsRoutes {
 
     router.get(
       '/keyword',
-      makeValidateQueries(FindByKeywordDTO),
+      ensureAuthenticated,
+      makeValidateQueries(FindByKeywordsProductBO),
       findByKeywordController.execute,
     );
 
+    const findProductsController = new FindProductsController();
+
+    router.get('/', ensureAuthenticated, findProductsController.execute);
+
     router.get(
       '/:id',
-      makeValidateParams(FindOneProductDTO),
+      ensureAuthenticated,
+      makeValidateParams(FindOneProductBO),
       findOneProductController.execute,
     );
 
@@ -46,6 +57,8 @@ class ProductsRoutes {
 
     router.delete(
       '/:id',
+      ensureAuthenticated,
+      ensureAdmin,
       makeValidateParams(DeleteProductDTO),
       deleteProductController.execute,
     );

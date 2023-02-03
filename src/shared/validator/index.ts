@@ -1,7 +1,7 @@
 import { transformAndValidate } from 'class-transformer-validator';
 import { Request, Response, NextFunction } from 'express';
 
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = false;
 
 function makeValidateBody<T>(
   c: T,

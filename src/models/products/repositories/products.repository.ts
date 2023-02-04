@@ -109,7 +109,6 @@ class ProductsRepository implements ProductsRepositoryInterface {
     id,
     userId,
   }: FindOneProductDTO): Promise<ProductDocument | null> {
-    console.log(userId);
     const product = await this.repository.findOne({
       _id: id,
       userId,

@@ -69,8 +69,6 @@ describe('Find One Product', () => {
         throw new Error('Not able to create product');
       }
 
-      console.log(productId);
-
       const foundProduct = await findOneProductService.execute({
         id: productId.toString(),
         userId: user._id.toString(),

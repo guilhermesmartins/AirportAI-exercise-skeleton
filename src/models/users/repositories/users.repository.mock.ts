@@ -23,8 +23,6 @@ class UsersRepositoryMock implements UsersRepositoryInterface {
   async findByEmail(email: string): Promise<UserDocument | null> {
     const user = this.users.find(u => u.email === email);
 
-    console.log(user, email);
-
     if (!user) {
       return null;
     }

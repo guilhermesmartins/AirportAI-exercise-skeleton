@@ -9,8 +9,9 @@ COPY . .
 ARG API_PORT=3000
 EXPOSE $API_PORT
 
-RUN npm run build
-
 ARG NODE_ENV=production
+
+RUN npx tsup
+
 
 CMD ["npm", "run", "start:prod"]

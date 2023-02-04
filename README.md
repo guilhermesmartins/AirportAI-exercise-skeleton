@@ -8,7 +8,6 @@ Create a .env inspired by .env.example, then run
 
 ```
 npm install
-
 ```
 
 to install the dependencies. After that,
@@ -28,3 +27,6 @@ to run in the development mode. If everything is ok, you should see a { "status"
 ### Requirements
 
 Make sure you have MongoDB installed and running on your computer (with the connection url in the .env) as well as NodeJS/NPM installed.
+
+### Permissions
+There is two types of users: agents and passengers. Passengers can only search for products, and for his own lost products. Agents can create, delete and list all products. You can create a agent/passenger in the /users POST, and a passenger mail is needed to create a lost product (as a agent).

@@ -11,15 +11,18 @@ npm install
 ```
 
 to install the dependencies. After that,
-
 ```
-npm start:prod
+npm run build
+```
+To parse TS to JS, and then
+```
+npm run start:prod
 ```
 
 to run in a simulated production mode, or
 
 ```
-npm start:dev
+npm run start:dev
 ```
 
 to run in the development mode. If everything is ok, you should see a { "status": "UP" } message when you go to the health checker 'http://localhost:3000/health' on your browser or other request methods.
